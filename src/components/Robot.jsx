@@ -1,6 +1,4 @@
 import React from "react";
-import Typewriter from "typewriter-effect";
-
 // eslint-disable-next-line react/prop-types
 const Robot = ({ data }) => (
   <svg
@@ -74,19 +72,6 @@ const Robot = ({ data }) => (
       fill="#2196F3"
     />
     <text x="250" y="100" fill="black" className="text-xl">
-      <Typewriter
-        onInit={(typewriter) => {
-          typewriter
-            .typeString("jobs research")
-            .pauseFor(1000)
-            .deleteAll()
-            .typeString("Admin procedures")
-            .pauseFor(1000)
-            .deleteAll()
-            .typeString("Houssing")
-            .start();
-        }}
-      />
       {data === 1 ? "You gonna die" : "You gonna live"}
     </text>
     <path
