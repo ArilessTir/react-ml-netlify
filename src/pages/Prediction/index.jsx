@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../../components/Navbar";
 import PredictionForm from "../../components/PredictionForm";
+import Card from "../../components/Card";
 
 const Prediction = () => {
   const [result, setResult] = useState("");
@@ -12,9 +13,11 @@ const Prediction = () => {
   return (
     <>
       <Navbar />
-      <h1> Hello from pred form</h1>
-      <PredictionForm childToParent={childToParent} />
-      <h1>Result: {result} </h1>
+      <h1 className="text-center pt-16"> Hello from pred form</h1>
+      <Card>
+        <PredictionForm childToParent={childToParent} />
+      </Card>
+      <h1 className="text-center">Result: {result} </h1>
     </>
   );
 };

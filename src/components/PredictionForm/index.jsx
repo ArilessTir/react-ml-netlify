@@ -1,29 +1,30 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import axios from "axios";
-// eslint-disable-next-line import/no-extraneous-dependencies
-import PropTypes from "prop-types";
-
+import Button from "../Button";
+import InputText from "../InputText";
+import DropdownText from "../DropdownText";
 // eslint-disable-next-line react/prop-types
 const PredictionForm = ({ childToParent }) => {
   const [data, setData] = useState({
-    PassengerId: 343,
-    Pclass: 2,
-    Name: "Collander, Mr. Erik Gustaf",
+    PassengerId: 0,
+    Pclass: 1,
+    Name: "",
     Sex: "male",
-    Age: 28.0,
+    Age: 22,
     SibSp: 0,
     Parch: 0,
-    Ticket: "248740",
-    Fare: 13.0,
-    Cabin: "PC52",
-    Embarked: "S",
+    Ticket: "",
+    Fare: 0,
+    Cabin: "",
+    Embarked: "",
   });
-  const handleChange = (key, value) => {
-    setData((obj) => ({
-      ...obj,
-      [key]: value,
-    }));
+
+  const handleChange = (event) => {
+    setData({
+      ...data,
+      [event.target.name]: event.target.value,
+    });
   };
 
   const handleSubmit = (e) => {
@@ -33,6 +34,7 @@ const PredictionForm = ({ childToParent }) => {
       axios
         .post("https://mytitanicapipred.herokuapp.com/predict", data)
         .then((res) => {
+          console.log(data);
           console.log(res);
           childToParent(res.data);
         })
@@ -42,105 +44,28 @@ const PredictionForm = ({ childToParent }) => {
     }, 3000);
   };
 
+  const test = ["Name", "Age"];
+  const dropdown = [
+    { Name: "Pclass", option: ["1", "2", "3"] },
+    { Name: "Sex", option: ["male", "female"] },
+  ];
   return (
-    <form className="block">
-      <input
-        placeholder="Pclass"
-        type="text"
-        defaultValue={data.Pclass}
-        onChange={(e) => {
-          e.preventDefault();
-          handleChange("Pclass", e.target.value);
-        }}
-      />
-      <input
-        placeholder="Name"
-        type="text"
-        defaultValue={data.Name}
-        onChange={(e) => {
-          e.preventDefault();
-          handleChange("Name", e.target.value);
-        }}
-      />
-      <input
-        placeholder="Sex"
-        type="text"
-        defaultValue={data.Sex}
-        onChange={(e) => {
-          e.preventDefault();
-          handleChange("Sex", e.target.value);
-        }}
-      />
-      <input
-        placeholder="Age"
-        type="text"
-        defaultValue={data.Age}
-        onChange={(e) => {
-          e.preventDefault();
-          handleChange("Age", e.target.value);
-        }}
-      />
-      <input
-        placeholder="SibSp"
-        type="text"
-        defaultValue={data.SibSp}
-        onChange={(e) => {
-          e.preventDefault();
-          handleChange("SibSp", e.target.value);
-        }}
-      />
-      <input
-        placeholder="Parch"
-        type="text"
-        defaultValue={data.Parch}
-        onChange={(e) => {
-          e.preventDefault();
-          handleChange("Parch", e.target.value);
-        }}
-      />
-      <input
-        placeholder="Ticket"
-        type="text"
-        defaultValue={data.Ticket}
-        onChange={(e) => {
-          e.preventDefault();
-          handleChange("Ticket", e.target.value);
-        }}
-      />
-      <input
-        placeholder="Fare"
-        type="text"
-        defaultValue={data.Fare}
-        onChange={(e) => {
-          e.preventDefault();
-          handleChange("Fare", e.target.value);
-        }}
-      />
-      <input
-        placeholder="Cabin"
-        type="text"
-        defaultValue={data.Cabin}
-        onChange={(e) => {
-          e.preventDefault();
-          handleChange("Cabin", e.target.value);
-        }}
-      />
-      <input
-        placeholder="Embarked"
-        type="text"
-        defaultValue={data.Embarked}
-        onChange={(e) => {
-          e.preventDefault();
-          handleChange("Embarked", e.target.value);
-        }}
-      />
-      <input type="submit" onClick={handleSubmit} />
-    </form>
+    <>
+      <form className="grid grid-cols-2">
+        {test.map((items) => (
+          <InputText name={items} onChange={handleChange} />
+        ))}
+        {dropdown.map((element) => (
+          <DropdownText
+            name={element.Name}
+            options={element.option}
+            onChange={handleChange}
+          />
+        ))}
+      </form>
+      <Button name="Valider" clikFunc={handleSubmit} color="bg-blue-500" />
+    </>
   );
-};
-
-PredictionForm.prototype = {
-  childToParent: PropTypes.function,
 };
 
 export default PredictionForm;
